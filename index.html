@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Midnight Line - Role Applications</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #121212;
+      color: #f0f0f0;
+      margin: 0;
+      padding: 2rem;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .form-container {
+      max-width: 800px;
+      background: #1e1e1e;
+      margin: 0 auto;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.4);
+    }
+    label {
+      display: block;
+      margin-top: 1rem;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 0.8rem;
+      margin-top: 0.5rem;
+      border: none;
+      border-radius: 8px;
+      background: #2c2c2c;
+      color: #fff;
+    }
+    button {
+      margin-top: 1.5rem;
+      background: #ff4757;
+      color: #fff;
+      padding: 0.8rem 1.5rem;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #e84118;
+    }
+  </style>
+</head>
+<body>
+  <h1>Apply for Roles – Midnight Line Film</h1>
+  <div class="form-container">
+    <form id="applicationForm">
+      <label for="name">Your Name</label>
+      <input type="text" id="name" name="name" required>
+
+      <label for="gamertag">Xbox Gamertag</label>
+      <input type="text" id="gamertag" name="gamertag" required>
+
+      <label for="role">Role You're Applying For</label>
+      <select id="role" name="role" required>
+        <option value="driver">Driver</option>
+        <option value="voice_actor">Voice Actor</option>
+        <option value="audio_engineer">Audio Engineer</option>
+        <option value="editor">Video Editor</option>
+        <option value="script_supervisor">Script Supervisor</option>
+        <option value="assistant_director">Assistant Director</option>
+        <option value="main_actor">Main Actor (Voice + Driving)</option>
+        <option value="side_actor">Side Actor (Voice or Driving)</option>
+      </select>
+
+      <label for="experience">Tell us about your experience or interest in this role</label>
+      <textarea id="experience" name="experience" rows="4" required></textarea>
+
+      <label for="forzaExperience">How long have you been playing Forza?</label>
+      <input type="text" id="forzaExperience" name="forzaExperience" placeholder="e.g. 3 years, since Forza Horizon 3" required>
+
+      <label for="weeklyHours">How many hours per week do you play on average?</label>
+      <input type="number" id="weeklyHours" name="weeklyHours" min="0" required>
+
+      <label for="equipment">What equipment do you use? (e.g. Controller, Wheel, Mic, Editing Software)</label>
+      <textarea id="equipment" name="equipment" rows="3" required></textarea>
+
+      <label for="strengths">What are your strengths related to this role?</label>
+      <textarea id="strengths" name="strengths" rows="3" required></textarea>
+
+      <label for="availability">What is your general availability for participating in filming or production sessions?</label>
+      <input type="text" id="availability" name="availability" placeholder="e.g. Evenings, Weekends, Specific Time Zones" required>
+
+      <div id="roleSpecificQuestions"></div>
+
+      <button type="submit">Submit Application</button>
+    </form>
+    <p id="confirmationMessage" style="display:none; margin-top:1rem; color: #0f0;">
+      Thanks! Your application has been submitted.<br>
+      Please join this Discord server: <a href="https://discord.gg/YpWMYAazHv" target="_blank" style="color: #00ffff;">https://discord.gg/YpWMYAazHv</a>
+    </p>
+  </div>
+
+  <script>
+    const roleSpecificData = {
+      driver: [
+        'Favorite car class to drive?',
+        'Can you perform precise stunts (e.g. drifts, follows)?',
+        'Describe your control setup (manual/auto, assists, etc)',
+        'Are you able to repeat driving scenes consistently?',
+        'Do you have experience driving in convoy or cinematic follow shots?',
+        'Can you participate in night-time sessions?',
+        'Do you own all map expansions?'  
+      ],
+      voice_actor: [
+        'Do you have experience voice acting?',
+        'Describe your microphone setup.',
+        'Are you comfortable doing multiple takes for emotion/clarity?',
+        'Can you portray multiple voice styles or accents?',
+        'Are you comfortable acting with a script written by others?',
+        'Have you acted in other projects or videos before?',
+        'Do you prefer live direction or recording solo?'  
+      ],
+      audio_engineer: [
+        'What DAW or audio software do you use?',
+        'Do you have experience mixing car engine sounds and dialogue?',
+        'Can you add SFX or foley work?',
+        'Can you sync audio with gameplay video accurately?',
+        'Have you worked on a collaborative project before?',
+        'Do you have experience mastering audio for YouTube?',
+        'How do you handle noisy voice recordings?' 
+      ],
+      editor: [
+        'What video editing software do you use?',
+        'Can you handle 1080p or 4K footage from capture cards?',
+        'Do you have experience editing racing montages or story-driven content?',
+        'Can you sync audio with visuals effectively?',
+        'Do you use motion graphics or visual effects?',
+        'Can you work with time-coded scripts or shot lists?',
+        'Have you edited for YouTube or short films before?'  
+      ],
+      script_supervisor: [
+        'Do you have screenwriting or formatting experience?',
+        'Can you track character lines and consistency?',
+        'Have you edited scripts with others collaboratively?',
+        'Do you understand pacing in racing-focused stories?',
+        'Can you suggest improvements while preserving tone?',
+        'How do you document changes across scenes?',
+        'Are you familiar with screenplay software like Celtx or Final Draft?'  
+      ],
+      assistant_director: [
+        'Do you have experience organizing people for online projects?',
+        'Can you create shot lists and keep filming on schedule?',
+        'Do you take initiative in planning without micro-managing?',
+        'How would you handle a player not showing up to a scene?',
+        'Are you comfortable using Discord for coordination?',
+        'Do you have experience directing in-game performances?',
+        'Can you adapt quickly when shots need to change?'  
+      ],
+      main_actor: [
+        'Are you able to drive and act at the same time?',
+        'Can you memorize emotional voice lines?',
+        'Do you have a mic with clear quality for voice recording?',
+        'Can you repeat driving sequences accurately?',
+        'Are you okay being the lead presence in marketing or trailers?',
+        'Do you have prior acting experience (voice or in-game)?',
+        'Can you commit to multiple shoot days?' 
+      ],
+      side_actor: [
+        'Would you prefer driving, voice acting, or both?',
+        'Do you have flexible availability?',
+        'Are you willing to appear in multiple short scenes?',
+        'Can you follow shot directions precisely?',
+        'Are you okay with background or supporting roles?',
+        'Do you have acting or racing experience?',
+        'Would you be open to stepping into a bigger role if needed?' 
+      ]
+    };
+
+    document.getElementById('role').addEventListener('change', function() {
+      const selected = this.value;
+      const container = document.getElementById('roleSpecificQuestions');
+      container.innerHTML = '';
+
+      if (roleSpecificData[selected]) {
+        roleSpecificData[selected].forEach((question, i) => {
+          const label = document.createElement('label');
+          label.textContent = question;
+
+          const input = document.createElement('textarea');
+          input.name = `roleQuestion_${selected}_${i}`;
+          input.rows = 2;
+          input.required = true;
+
+          container.appendChild(label);
+          container.appendChild(input);
+        });
+      }
+    });
+
+    document.getElementById('applicationForm').addEventListener('submit', async function(event) {
+      event.preventDefault();
+
+      const form = event.target;
+      const formData = new FormData(form);
+      let fields = [];
+
+      formData.forEach((value, key) => {
+        fields.push(`**${key.replace(/_/g, ' ')}:** ${value}`);
+      });
+
+      const webhookUrl = 'https://discord.com/api/webhooks/1379147529635237998/9DL5MutuHKLpUpHum_PnBnpeyqrq3ni8x45acIVtn_PF8c3ZeA9-ooD5XDFpNEVL-rsx';
+      await fetch(webhookUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          content: `📥 **New Application Submitted**\n\n${fields.join('\n')}`
+        })
+      });
+
+      document.getElementById('confirmationMessage').style.display = 'block';
+      form.reset();
+      document.getElementById('roleSpecificQuestions').innerHTML = '';
+    });
+  </script>
+</body>
+</html>
